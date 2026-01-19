@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Menu, ChevronLeft } from "lucide-react";
+import { Sparkles, Database, Image, Code, Menu, ChevronLeft } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
+import XmlFormatter from "./components/XmlFormatter";
 
 function App() {
   const [activeTab, setActiveTab] = useState("json");
@@ -22,6 +23,13 @@ function App() {
       icon: Database,
       component: SqlFormatter,
       color: "text-green-400",
+    },
+    {
+      id: "xml",
+      name: "XML Formatter",
+      icon: Code,
+      component: XmlFormatter,
+      color: "text-orange-400",
     },
     {
       id: "base64",
