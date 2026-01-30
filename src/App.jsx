@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Code, Menu, ChevronLeft } from "lucide-react";
+import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
 import XmlFormatter from "./components/XmlFormatter";
+import BashConverter from "./components/BashConverter";
 
 function App() {
   const [activeTab, setActiveTab] = useState("json");
@@ -37,6 +38,13 @@ function App() {
       icon: Image,
       component: Base64ImagePreview,
       color: "text-purple-400",
+    },
+    {
+      id: "bash",
+      name: "Bash Converter",
+      icon: Terminal,
+      component: BashConverter,
+      color: "text-cyan-400",
     },
   ];
 
