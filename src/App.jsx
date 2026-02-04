@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal } from "lucide-react";
+import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
 import XmlFormatter from "./components/XmlFormatter";
 import BashConverter from "./components/BashConverter";
+import ConversationVisualizer from "./components/ConversationVisualizer";
 
 function App() {
   const [activeTab, setActiveTab] = useState("json");
@@ -45,6 +46,13 @@ function App() {
       icon: Terminal,
       component: BashConverter,
       color: "text-cyan-400",
+    },
+    {
+      id: "conversation",
+      name: "Conver. Visualizer",
+      icon: MessageSquare,
+      component: ConversationVisualizer,
+      color: "text-pink-400",
     },
   ];
 

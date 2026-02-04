@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sparkles, Copy, Check } from 'lucide-react';
+import { Sparkles, Copy, Check, WrapText } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -8,6 +8,7 @@ export default function JsonFormatter() {
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+  const [wrapText, setWrapText] = useState(true);
 
   useEffect(() => {
     if (!input.trim()) {
@@ -79,6 +80,16 @@ export default function JsonFormatter() {
                   padding: '1rem',
                   background: 'transparent',
                   fontSize: '0.875rem',
+                  whiteSpace: wrapText ? 'pre-wrap' : 'pre',
+                  wordBreak: wrapText ? 'break-all' : 'normal',
+                  overflowWrap: wrapText ? 'anywhere' : 'normal',
+                  width: '100%',
+                }}
+                codeTagProps={{
+                  style: {
+                    whiteSpace: wrapText ? 'pre-wrap' : 'pre',
+                    wordBreak: wrapText ? 'break-all' : 'normal',
+                  }
                 }}
               >
                 {output}
@@ -93,22 +104,31 @@ export default function JsonFormatter() {
           )}
 
           {output && (
-            <button
-              onClick={copyToClipboard}
-              className="mt-4 bg-[#5F7C87] hover:bg-[#4A6169] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg shadow-[#5F7C87]/20 hover:shadow-[#5F7C87]/40 flex items-center justify-center gap-2"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-5 h-5" />
-                  Copied!
-                </>
-              ) : (
-                <>
-                  <Copy className="w-5 h-5" />
-                  Copy to Clipboard
-                </>
-              )}
-            </button>
+            <div className="flex gap-3 mt-4">
+              <button
+                onClick={() => setWrapText(!wrapText)}
+                className="flex-1 bg-[#5F7C87] hover:bg-[#4A6169] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg shadow-[#5F7C87]/20 hover:shadow-[#5F7C87]/40 flex items-center justify-center gap-2"
+              >
+                <WrapText className="w-5 h-5" />
+                {wrapText ? 'Wrap On' : 'Wrap Off'}
+              </button>
+              <button
+                onClick={copyToClipboard}
+                className="flex-1 bg-[#5F7C87] hover:bg-[#4A6169] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg shadow-[#5F7C87]/20 hover:shadow-[#5F7C87]/40 flex items-center justify-center gap-2"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-5 h-5" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-5 h-5" />
+                    Copy to Clipboard
+                  </>
+                )}
+              </button>
+            </div>
           )}
         </div>
       </div>
