@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare } from "lucide-react";
+import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
 import XmlFormatter from "./components/XmlFormatter";
 import BashConverter from "./components/BashConverter";
 import ConversationVisualizer from "./components/ConversationVisualizer";
+import HtmlPreview from "./components/HtmlPreview";
 
 function App() {
   const [activeTab, setActiveTab] = useState("json");
@@ -53,6 +54,13 @@ function App() {
       icon: MessageSquare,
       component: ConversationVisualizer,
       color: "text-pink-400",
+    },
+    {
+      id: "html",
+      name: "HTML Preview",
+      icon: FileCode,
+      component: HtmlPreview,
+      color: "text-yellow-400",
     },
   ];
 
