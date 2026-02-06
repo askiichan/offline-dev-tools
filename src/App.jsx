@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode } from "lucide-react";
+import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
@@ -7,65 +7,95 @@ import XmlFormatter from "./components/XmlFormatter";
 import BashConverter from "./components/BashConverter";
 import ConversationVisualizer from "./components/ConversationVisualizer";
 import HtmlPreview from "./components/HtmlPreview";
+import MarkdownPreview from "./components/MarkdownPreview";
 
 function App() {
   const [activeTab, setActiveTab] = useState("json");
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const tools = [
+  const toolGroups = [
     {
-      id: "json",
-      name: "JSON Formatter",
-      icon: Sparkles,
-      component: JsonFormatter,
-      color: "text-blue-400",
+      category: "Formatters",
+      tools: [
+        {
+          id: "json",
+          name: "JSON Formatter",
+          icon: Sparkles,
+          component: JsonFormatter,
+          color: "text-blue-400",
+        },
+        {
+          id: "sql",
+          name: "SQL Formatter",
+          icon: Database,
+          component: SqlFormatter,
+          color: "text-green-400",
+        },
+        {
+          id: "xml",
+          name: "XML Formatter",
+          icon: Code,
+          component: XmlFormatter,
+          color: "text-orange-400",
+        },
+      ],
     },
     {
-      id: "sql",
-      name: "SQL Formatter",
-      icon: Database,
-      component: SqlFormatter,
-      color: "text-green-400",
+      category: "Previews",
+      tools: [
+        {
+          id: "base64",
+          name: "Base64 Preview",
+          icon: Image,
+          component: Base64ImagePreview,
+          color: "text-purple-400",
+        },
+        {
+          id: "html",
+          name: "HTML Preview",
+          icon: FileCode,
+          component: HtmlPreview,
+          color: "text-yellow-400",
+        },
+        {
+          id: "markdown",
+          name: "Markdown Preview",
+          icon: FileText,
+          component: MarkdownPreview,
+          color: "text-indigo-400",
+        },
+      ],
     },
     {
-      id: "xml",
-      name: "XML Formatter",
-      icon: Code,
-      component: XmlFormatter,
-      color: "text-orange-400",
+      category: "Converters",
+      tools: [
+        {
+          id: "bash",
+          name: "Bash Converter",
+          icon: Terminal,
+          component: BashConverter,
+          color: "text-cyan-400",
+        },
+      ],
     },
     {
-      id: "base64",
-      name: "Base64 Preview",
-      icon: Image,
-      component: Base64ImagePreview,
-      color: "text-purple-400",
-    },
-    {
-      id: "bash",
-      name: "Bash Converter",
-      icon: Terminal,
-      component: BashConverter,
-      color: "text-cyan-400",
-    },
-    {
-      id: "conversation",
-      name: "Conver. Visualizer",
-      icon: MessageSquare,
-      component: ConversationVisualizer,
-      color: "text-pink-400",
-    },
-    {
-      id: "html",
-      name: "HTML Preview",
-      icon: FileCode,
-      component: HtmlPreview,
-      color: "text-yellow-400",
+      category: "Visualizers",
+      tools: [
+        {
+          id: "conversation",
+          name: "Conver. Visualizer",
+          icon: MessageSquare,
+          component: ConversationVisualizer,
+          color: "text-pink-400",
+        },
+      ],
     },
   ];
 
+  const allTools = toolGroups.flatMap((group) => group.tools);
+
   const ActiveComponent =
-    tools.find((tool) => tool.id === activeTab)?.component || JsonFormatter;
+    allTools.find((tool) => tool.id === activeTab)?.component || JsonFormatter;
 
   return (
     <div className="flex h-screen bg-black text-white overflow-hidden relative">
@@ -91,28 +121,37 @@ function App() {
           <p className="text-sm text-gray-400 mt-1">Offline Developer Tools</p>
         </div>
 
-        <nav className="flex-1 p-4 space-y-2">
-          {tools.map((tool) => {
-            const Icon = tool.icon;
-            return (
-              <button
-                key={tool.id}
-                onClick={() => setActiveTab(tool.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
-                  activeTab === tool.id
-                    ? "glass text-white shadow-lg shadow-[#5F7C87]/50 tool-selected"
-                    : "text-gray-500 hover:glass hover:text-white"
-                }`}
-              >
-                <Icon
-                  className={`w-5 h-5 ${
-                    activeTab === tool.id ? "text-[#5F7C87]" : ""
-                  }`}
-                />
-                <span className="font-medium">{tool.name}</span>
-              </button>
-            );
-          })}
+        <nav className="flex-1 p-4 space-y-4 overflow-y-auto">
+          {toolGroups.map((group) => (
+            <div key={group.category}>
+              <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-2">
+                {group.category}
+              </div>
+              <div className="space-y-1">
+                {group.tools.map((tool) => {
+                  const Icon = tool.icon;
+                  return (
+                    <button
+                      key={tool.id}
+                      onClick={() => setActiveTab(tool.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ${
+                        activeTab === tool.id
+                          ? "glass text-white shadow-lg shadow-[#5F7C87]/50 tool-selected"
+                          : "text-gray-500 hover:glass hover:text-white"
+                      }`}
+                    >
+                      <Icon
+                        className={`w-5 h-5 ${
+                          activeTab === tool.id ? "text-[#5F7C87]" : ""
+                        }`}
+                      />
+                      <span className="font-medium text-sm">{tool.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         <div className="p-4 border-t border-[#5F7C87]/20">
@@ -139,7 +178,7 @@ function App() {
           </button>
           <div className="flex-1">
             <h2 className="text-lg font-semibold text-white">
-              {tools.find((tool) => tool.id === activeTab)?.name ||
+              {allTools.find((tool) => tool.id === activeTab)?.name ||
                 "Developer Tools"}
             </h2>
           </div>
