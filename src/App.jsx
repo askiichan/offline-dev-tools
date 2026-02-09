@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText } from "lucide-react";
+import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
@@ -8,6 +8,7 @@ import BashConverter from "./components/BashConverter";
 import ConversationVisualizer from "./components/ConversationVisualizer";
 import HtmlPreview from "./components/HtmlPreview";
 import MarkdownPreview from "./components/MarkdownPreview";
+import MermaidVisualizer from "./components/MermaidVisualizer";
 
 function App() {
   const [activeTab, setActiveTab] = useState("json");
@@ -87,6 +88,13 @@ function App() {
           icon: MessageSquare,
           component: ConversationVisualizer,
           color: "text-pink-400",
+        },
+        {
+          id: "mermaid",
+          name: "Mermaid Diagram",
+          icon: Network,
+          component: MermaidVisualizer,
+          color: "text-teal-400",
         },
       ],
     },
