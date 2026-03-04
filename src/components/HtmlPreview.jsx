@@ -6,6 +6,7 @@ export default function HtmlPreview() {
   const [placeholders, setPlaceholders] = useState({});
   const [copied, setCopied] = useState(false);
   const [detectedPlaceholders, setDetectedPlaceholders] = useState([]);
+  const [showPlaceholders, setShowPlaceholders] = useState(false);
 
   useEffect(() => {
     const regex = /\{(\d+)\}/g;
@@ -25,6 +26,9 @@ export default function HtmlPreview() {
   }, [input]);
 
   const getRenderedHtml = () => {
+    if (showPlaceholders) {
+      return input;
+    }
     let rendered = input;
     Object.keys(placeholders).forEach(key => {
       const regex = new RegExp(`\\{${key}\\}`, 'g');
@@ -129,7 +133,18 @@ export default function HtmlPreview() {
 
         {/* Preview Section */}
         <div className="flex-1 lg:w-1/2 flex flex-col min-h-0">
-          <label className="text-sm font-semibold text-[#5F7C87] mb-2">Live Preview</label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-sm font-semibold text-[#5F7C87]">Live Preview</label>
+            <label className="flex items-center gap-2 text-xs text-gray-400 cursor-pointer hover:text-[#5F7C87] transition-colors">
+              <input
+                type="checkbox"
+                checked={showPlaceholders}
+                onChange={(e) => setShowPlaceholders(e.target.checked)}
+                className="w-4 h-4 accent-[#5F7C87] cursor-pointer"
+              />
+              <span>Show Placeholders</span>
+            </label>
+          </div>
           
           {input ? (
             <div className="flex-1 overflow-auto rounded-xl glass-dark m-1 p-4 border-2 border-gray-700">
