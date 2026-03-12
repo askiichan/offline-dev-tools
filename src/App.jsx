@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network } from "lucide-react";
+import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
 import XmlFormatter from "./components/XmlFormatter";
 import BashConverter from "./components/BashConverter";
+import HuggingFaceCommandHelper from "./components/HuggingFaceCommandHelper";
 import ConversationVisualizer from "./components/ConversationVisualizer";
 import HtmlPreview from "./components/HtmlPreview";
 import MarkdownPreview from "./components/MarkdownPreview";
@@ -76,6 +77,13 @@ function App() {
           icon: Terminal,
           component: BashConverter,
           color: "text-cyan-400",
+        },
+        {
+          id: "hf-command",
+          name: "HF Command Helper",
+          icon: Download,
+          component: HuggingFaceCommandHelper,
+          color: "text-sky-400",
         },
       ],
     },
