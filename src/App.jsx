@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download } from "lucide-react";
+import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download, List } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
@@ -10,6 +10,7 @@ import ConversationVisualizer from "./components/ConversationVisualizer";
 import HtmlPreview from "./components/HtmlPreview";
 import MarkdownPreview from "./components/MarkdownPreview";
 import MermaidVisualizer from "./components/MermaidVisualizer";
+import CommaToNewline from "./components/CommaToNewline";
 
 function App() {
   const [activeTab, setActiveTab] = useState("json");
@@ -84,6 +85,13 @@ function App() {
           icon: Download,
           component: HuggingFaceCommandHelper,
           color: "text-sky-400",
+        },
+        {
+          id: "comma-newline",
+          name: "Comma to Newline",
+          icon: List,
+          component: CommaToNewline,
+          color: "text-emerald-400",
         },
       ],
     },
