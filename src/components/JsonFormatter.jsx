@@ -24,8 +24,35 @@ export default function JsonFormatter() {
         setOutput(formatted);
         setError('');
       } catch (err) {
-        setError('Invalid JSON: ' + err.message);
-        setOutput('');
+        // Try to fix common issues and re-parse
+        try {
+          let fixedInput = input;
+
+          // Attempt to parse as a JSON string first, which might contain escaped characters
+          try {
+            const parsedString = JSON.parse(input);
+            if (typeof parsedString === 'string') {
+              fixedInput = parsedString;
+            }
+          } catch (strParseErr) {
+            // If it's not a JSON string, proceed with other fixes
+          }
+          
+          // Replace literal escape sequences with actual characters
+          fixedInput = fixedInput.replace(/\\n/g, '\n');
+          fixedInput = fixedInput.replace(/\\t/g, '\t');
+          fixedInput = fixedInput.replace(/\\r/g, '\r');
+          fixedInput = fixedInput.replace(/\\"/g, '"');
+          
+          // Try parsing the fixed input
+          const parsed = JSON.parse(fixedInput);
+          const formatted = JSON.stringify(parsed, null, 2);
+          setOutput(formatted);
+          setError('');
+        } catch (fixErr) {
+          setError('Invalid JSON: ' + err.message);
+          setOutput('');
+        }
       }
     }, 300); // 300ms debounce
 
