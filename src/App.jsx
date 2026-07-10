@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download, List } from "lucide-react";
+import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download, List, PenLine } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
@@ -9,6 +9,7 @@ import HuggingFaceCommandHelper from "./components/HuggingFaceCommandHelper";
 import ConversationVisualizer from "./components/ConversationVisualizer";
 import HtmlPreview from "./components/HtmlPreview";
 import MarkdownPreview from "./components/MarkdownPreview";
+import RichEditorPreview from "./components/RichEditorPreview";
 import MermaidVisualizer from "./components/MermaidVisualizer";
 import CommaToNewline from "./components/CommaToNewline";
 
@@ -66,6 +67,13 @@ function App() {
           icon: FileText,
           component: MarkdownPreview,
           color: "text-indigo-400",
+        },
+        {
+          id: "rich-editor",
+          name: "Rich Editor",
+          icon: PenLine,
+          component: RichEditorPreview,
+          color: "text-rose-400",
         },
       ],
     },

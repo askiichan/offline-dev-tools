@@ -33,6 +33,7 @@
     "mermaid": "^11.12.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-quill-new": "^3.8.3",
     "react-syntax-highlighter": "^16.1.0",
     "sql-formatter": "^15.6.12"
   },
