@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download, List, PenLine } from "lucide-react";
+import { Sparkles, Database, Image, Images, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download, List, PenLine } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
@@ -10,6 +10,7 @@ import ConversationVisualizer from "./components/ConversationVisualizer";
 import HtmlPreview from "./components/HtmlPreview";
 import MarkdownPreview from "./components/MarkdownPreview";
 import RichEditorPreview from "./components/RichEditorPreview";
+import ImageUrlListPreview from "./components/ImageUrlListPreview";
 import MermaidVisualizer from "./components/MermaidVisualizer";
 import CommaToNewline from "./components/CommaToNewline";
 
@@ -74,6 +75,13 @@ function App() {
           icon: PenLine,
           component: RichEditorPreview,
           color: "text-rose-400",
+        },
+        {
+          id: "image-urls",
+          name: "Image URL Preview",
+          icon: Images,
+          component: ImageUrlListPreview,
+          color: "text-amber-400",
         },
       ],
     },
