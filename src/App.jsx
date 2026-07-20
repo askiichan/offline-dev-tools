@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Images, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download, List, PenLine } from "lucide-react";
+import { Sparkles, Database, Image, Images, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download, List, PenLine, AlignJustify } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
@@ -13,6 +13,7 @@ import RichEditorPreview from "./components/RichEditorPreview";
 import ImageUrlListPreview from "./components/ImageUrlListPreview";
 import MermaidVisualizer from "./components/MermaidVisualizer";
 import CommaToNewline from "./components/CommaToNewline";
+import MultilineToSingleLine from "./components/MultilineToSingleLine";
 
 function App() {
   const [activeTab, setActiveTab] = useState("json");
@@ -108,6 +109,13 @@ function App() {
           icon: List,
           component: CommaToNewline,
           color: "text-emerald-400",
+        },
+        {
+          id: "multiline-to-singleline",
+          name: "Multiline to Single Line",
+          icon: AlignJustify,
+          component: MultilineToSingleLine,
+          color: "text-lime-400",
         },
       ],
     },
