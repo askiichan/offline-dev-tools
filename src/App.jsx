@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Images, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download, List, PenLine, AlignJustify, Scissors } from "lucide-react";
+import { Sparkles, Database, Image, Images, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download, List, PenLine, AlignJustify, Scissors, PanelsTopLeft } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
@@ -15,6 +15,7 @@ import MermaidVisualizer from "./components/MermaidVisualizer";
 import CommaToNewline from "./components/CommaToNewline";
 import MultilineToSingleLine from "./components/MultilineToSingleLine";
 import VideoTrimmer from "./components/VideoTrimmer";
+import VideoCompare from "./components/VideoCompare";
 
 function App() {
   const [activeTab, setActiveTab] = useState("json");
@@ -95,6 +96,13 @@ function App() {
           name: "Video Clip",
           icon: Scissors,
           component: VideoTrimmer,
+          color: "text-cyan-400",
+        },
+        {
+          id: "video-compare",
+          name: "Video Compare",
+          icon: PanelsTopLeft,
+          component: VideoCompare,
           color: "text-cyan-400",
         },
       ],

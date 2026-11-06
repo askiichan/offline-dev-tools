@@ -1,0 +1,67 @@
+.video-compare {
+  --compare-accent: #83cede;
+  --compare-ink: #e7f0f1;
+  --compare-muted: #96a7ac;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 0 48px;
+  color: var(--compare-ink);
+}
+.compare-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin: 10px 0 34px; }
+.compare-eyebrow { display: flex; align-items: center; gap: 8px; color: var(--compare-accent); font-size: 11px; font-weight: 700; letter-spacing: .14em; }
+.compare-eyebrow span { color: #617980; }
+.compare-heading h3 { font-family: "Trebuchet MS", "Avenir Next", sans-serif; font-size: clamp(32px, 5vw, 56px); font-weight: 700; letter-spacing: -.055em; line-height: 1.1; margin: 12px 0 10px; }
+.compare-heading p { color: var(--compare-muted); margin: 0; font-size: 14px; }
+.compare-privacy { flex: none; color: #a4c8b8; font-size: 12px; padding-bottom: 4px; }
+.compare-privacy span { display: inline-block; width: 7px; height: 7px; background: #8dd1aa; border-radius: 50%; margin-right: 6px; }
+.compare-panes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.compare-pane { min-width: 0; }
+.compare-pane-heading { display: flex; justify-content: space-between; align-items: center; min-height: 28px; margin-bottom: 10px; }
+.compare-pane-number { font-size: 11px; color: var(--compare-accent); font-weight: 700; letter-spacing: .12em; }
+.compare-pane-number span { color: #617980; padding: 0 5px; }
+.compare-replace { background: none; border: 0; color: var(--compare-accent); cursor: pointer; font-size: 13px; }
+.compare-screen, .compare-empty { aspect-ratio: 16 / 10; min-height: 240px; border: 1px solid #263a3e; border-radius: 12px; overflow: hidden; background: #070c0e; }
+.compare-screen { display: grid; place-items: center; }
+.compare-screen video { display: block; width: 100%; height: 100%; max-height: 55vh; object-fit: contain; }
+.compare-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; border-style: dashed; border-color: #4c6a72; background: radial-gradient(circle at 50% 0%, rgba(95, 124, 135, .17), transparent 65%), #0b1113; }
+.compare-empty-icon { display: grid; place-items: center; width: 54px; height: 54px; border: 1px solid #385660; border-radius: 14px; color: var(--compare-accent); margin-bottom: 16px; }
+.compare-empty strong { font-size: 19px; letter-spacing: -.03em; }
+.compare-empty p { color: var(--compare-muted); font-size: 13px; margin: 5px 0 16px; }
+.compare-choose, .compare-play { display: inline-flex; align-items: center; justify-content: center; gap: 9px; background: var(--compare-accent); border: 0; border-radius: 9px; color: #0b1c20; font-size: 13px; font-weight: 700; padding: 10px 17px; cursor: pointer; }
+.compare-choose:hover, .compare-play:hover:not(:disabled) { background: #afe5ef; }
+.compare-empty small { color: #889ca1; font-size: 11px; margin-top: 16px; }
+.compare-file { display: flex; align-items: center; gap: 8px; padding: 12px 2px; font-size: 13px; min-width: 0; }
+.compare-file svg { flex: none; color: var(--compare-accent); }
+.compare-file span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.compare-file small { flex: none; margin-left: auto; color: var(--compare-muted); font-variant-numeric: tabular-nums; }
+.compare-error { display: flex; justify-content: space-between; gap: 10px; color: #ffd7ca; background: #301c1b; border: 1px solid #96685e; padding: 10px; border-radius: 8px; font-size: 12px; }
+.compare-error button { border: 0; background: none; color: inherit; cursor: pointer; flex: none; }
+.compare-transport { margin-top: 28px; border-top: 1px solid #31454b; padding-top: 22px; }
+.compare-transport-top { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; margin-bottom: 17px; }
+.compare-transport-top > div { display: flex; align-items: center; gap: 8px; color: var(--compare-accent); font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+.compare-live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--compare-accent); flex: none; }
+.compare-transport-top small { color: var(--compare-muted); font-weight: 400; font-size: 12px; letter-spacing: 0; margin-left: 12px; }
+.compare-clock { font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.compare-clock span { color: var(--compare-muted); }
+.compare-transport input[type="range"] { width: 100%; height: 9px; margin: 0; appearance: none; border-radius: 4px; background: linear-gradient(90deg, var(--compare-accent) var(--compare-progress), #263a3e var(--compare-progress)); cursor: pointer; }
+.compare-transport input[type="range"]::-webkit-slider-thumb { appearance: none; width: 16px; height: 16px; border: 2px solid #d8f3f8; border-radius: 50%; background: var(--compare-accent); }
+.compare-transport input[type="range"]::-moz-range-thumb { width: 12px; height: 12px; border: 2px solid #d8f3f8; border-radius: 50%; background: var(--compare-accent); }
+.compare-transport input[type="range"]:disabled { opacity: .45; cursor: not-allowed; }
+.compare-actions { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 24px; }
+.compare-play { min-width: 135px; }
+.compare-play:disabled, .compare-audio:disabled { opacity: .45; cursor: not-allowed; }
+.compare-audio { display: inline-flex; align-items: center; gap: 8px; background: none; border: 1px solid #516c72; border-radius: 9px; padding: 9px 13px; color: var(--compare-ink); cursor: pointer; font-size: 13px; }
+.compare-audio:hover:not(:disabled) { background: #1d3035; }
+.video-compare button:focus-visible, .video-compare input:focus-visible { outline: 2px solid #c7eff6; outline-offset: 3px; }
+@media (max-width: 800px) {
+  .compare-panes { grid-template-columns: 1fr; }
+  .compare-screen, .compare-empty { min-height: 210px; }
+  .compare-screen video { max-height: 45vh; }
+}
+@media (max-width: 640px) {
+  .compare-heading { align-items: start; flex-direction: column; gap: 12px; }
+  .compare-transport-top { align-items: start; }
+  .compare-transport-top > div { flex-wrap: wrap; }
+  .compare-transport-top small { width: 100%; margin-left: 15px; }
+  .compare-actions { flex-wrap: wrap; }
+}
