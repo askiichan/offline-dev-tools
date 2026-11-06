@@ -33,4 +33,7 @@ function splitLargeWasm() {
 
 export default defineConfig({
   plugins: [react(), splitLargeWasm()],
+  optimizeDeps: {
+    exclude: ['@ffmpeg/ffmpeg'],
+  },
 })

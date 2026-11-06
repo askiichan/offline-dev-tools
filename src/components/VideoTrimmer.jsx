@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Check, Download, Film, Pause, Play, Scissors, Upload, X } from "lucide-react";
 import coreURL from "@ffmpeg/core?url";
 import wasmURL from "@ffmpeg/core/wasm?url";
+import workerURL from "@ffmpeg/ffmpeg/worker?worker&url";
 import { loadCoreWasm } from "./coreWasm";
 import { clipName, formatTime, getVideoFormat, MAX_VIDEO_BYTES, trimArguments } from "./videoTrim";
 import "./VideoTrimmer.css";
@@ -107,6 +108,7 @@ export default function VideoTrimmer() {
     loadingRef.current = controller;
     let ffmpeg;
     let core;
+    let startupTimeout;
     resetOutput();
     setStatus("Starting local video engine...");
     try {
@@ -117,7 +119,9 @@ export default function VideoTrimmer() {
       coreRef.current = core;
       ffmpeg = new FFmpeg();
       engineRef.current = ffmpeg;
-      await ffmpeg.load({ coreURL, wasmURL: core.url });
+      startupTimeout = setTimeout(() => controller.abort(), 60000);
+      await ffmpeg.load({ classWorkerURL: workerURL, coreURL, wasmURL: core.url }, { signal: controller.signal });
+      clearTimeout(startupTimeout);
       core.release();
       coreRef.current = null;
       core = null;
@@ -135,8 +139,13 @@ export default function VideoTrimmer() {
       const blob = new Blob([data], { type: source.format.type });
       setOutput({ url: URL.createObjectURL(blob), name: clipName(source.file.name, source.format.extension), size: blob.size });
     } catch (cause) {
-      if (job === jobRef.current) setError(cause instanceof Error ? cause.message : "Export failed. Try a different video.");
+      if (job === jobRef.current) {
+        setError(controller.signal.aborted
+          ? "The local video engine did not start in time. Refresh and try again."
+          : cause instanceof Error ? cause.message : "Export failed. Try a different video.");
+      }
     } finally {
+      clearTimeout(startupTimeout);
       core?.release();
       if (coreRef.current === core) coreRef.current = null;
       ffmpeg?.terminate();
@@ -245,7 +254,7 @@ export default function VideoTrimmer() {
                 <label>OUT <input type="number" min={start + 0.1} max={duration} step="0.01" value={Number(end.toFixed(2))} onChange={(event) => updateEnd(event.target.value)} disabled={!!status} aria-label="Clip end in seconds" /><span>s</span></label>
               </div>
               <div className="trim-bottom">
-                <div><strong>{formatTime(end - start)}</strong><span> selected · Stream-copy cuts land on nearby keyframes, so saved boundaries may differ slightly from the preview.</span></div>
+                <div><strong>{formatTime(end - start)}</strong><span> selected · To avoid frozen frames without re-encoding, the saved clip may start at an earlier keyframe than the preview.</span></div>
                 {status ? (
                   <div className="trim-processing"><span role="status">{status}</span><button onClick={cancelExport}>Cancel</button></div>
                 ) : (

@@ -14,9 +14,9 @@ test("formats elapsed time and preserves source container in output name", () =>
   assert.equal(clipName("trip.final.MP4", "mp4"), "trip.final-clip.mp4");
 });
 
-test("exports with stream copy and the selected start and duration", () => {
+test("seeks at input so stream copy retains the decodable starting GOP", () => {
   assert.deepEqual(trimArguments(12.25, 18.75, "webm"), [
-    "-i", "source.webm", "-ss", "12.250", "-t", "6.500",
+    "-ss", "12.250", "-noaccurate_seek", "-i", "source.webm", "-t", "6.500",
     "-map", "0", "-c", "copy", "-avoid_negative_ts", "make_zero", "clip.webm",
   ]);
 });

@@ -29,8 +29,9 @@ export function trimArguments(start, end, extension) {
     throw new Error("Choose a valid clip before exporting.");
   }
   return [
-    "-i", `source.${extension}`,
     "-ss", start.toFixed(3),
+    "-noaccurate_seek",
+    "-i", `source.${extension}`,
     "-t", (end - start).toFixed(3),
     "-map", "0",
     "-c", "copy",

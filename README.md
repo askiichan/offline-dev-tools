@@ -40,7 +40,7 @@ A sleek, client-side developer toolset for JSON/SQL formatting and Base64 image 
 - Choose or drop a local MP4, M4V, MOV, WebM, or MKV file (up to 250 MB).
 - Drag the timeline handles or enter in/out times in seconds, then preview the selection.
 - Export and preview the new clip, then click **Save video** to download it.
-- Video and audio streams are copied without re-encoding. Cuts snap to nearby keyframes, so exported boundaries may differ slightly from the on-screen selection. Browser support for previewing MOV/MKV and particular codecs varies.
+- Video and audio streams are copied without re-encoding. To keep the opening frames decodable, export may start at an earlier keyframe than the selected in-point; frame-exact cuts require re-encoding. Browser support for previewing MOV/MKV and particular codecs varies.
 - FFmpeg WebAssembly runs locally; no video is uploaded. The bundled `@ffmpeg/core` is GPL-2.0-or-later licensed; check its terms before redistributing this app.
 - For Cloudflare Pages, the production build splits the FFmpeg WASM file into smaller static assets and reassembles it in the browser when exporting. Deploy the complete `dist` directory, including the `.wasm.part*` and `.wasm.parts.json` assets.
 
