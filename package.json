@@ -24,9 +24,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "test": "node --test src/components/*.test.js",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ffmpeg/core": "^0.12.10",
+    "@ffmpeg/ffmpeg": "^0.12.15",
     "html-to-image": "^1.11.13",
     "lucide-react": "^0.562.0",
     "marked": "^17.0.1",

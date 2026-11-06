@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Database, Image, Images, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download, List, PenLine, AlignJustify } from "lucide-react";
+import { Sparkles, Database, Image, Images, Code, Menu, ChevronLeft, Terminal, MessageSquare, FileCode, FileText, Network, Download, List, PenLine, AlignJustify, Scissors } from "lucide-react";
 import JsonFormatter from "./components/JsonFormatter";
 import SqlFormatter from "./components/SqlFormatter";
 import Base64ImagePreview from "./components/Base64ImagePreview";
@@ -14,10 +14,11 @@ import ImageUrlListPreview from "./components/ImageUrlListPreview";
 import MermaidVisualizer from "./components/MermaidVisualizer";
 import CommaToNewline from "./components/CommaToNewline";
 import MultilineToSingleLine from "./components/MultilineToSingleLine";
+import VideoTrimmer from "./components/VideoTrimmer";
 
 function App() {
   const [activeTab, setActiveTab] = useState("json");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768);
 
   const toolGroups = [
     {
@@ -83,6 +84,18 @@ function App() {
           icon: Images,
           component: ImageUrlListPreview,
           color: "text-amber-400",
+        },
+      ],
+    },
+    {
+      category: "Media",
+      tools: [
+        {
+          id: "video-trim",
+          name: "Video Clip",
+          icon: Scissors,
+          component: VideoTrimmer,
+          color: "text-cyan-400",
         },
       ],
     },
@@ -160,7 +173,7 @@ function App() {
       <aside
         className={`${
           sidebarOpen ? "w-64" : "w-0"
-        } glass-dark transition-all duration-300 overflow-hidden flex flex-col relative z-10`}
+        } glass-dark transition-all duration-300 overflow-hidden flex flex-col absolute md:relative inset-y-0 left-0 z-20 shrink-0`}
       >
         <div className="p-6 border-b border-[#5F7C87]/20">
           <h1 className="text-xl font-bold bg-gradient-to-r from-[#64bee0] to-[#ffffff] bg-clip-text text-transparent">
@@ -181,7 +194,10 @@ function App() {
                   return (
                     <button
                       key={tool.id}
-                      onClick={() => setActiveTab(tool.id)}
+                      onClick={() => {
+                        setActiveTab(tool.id);
+                        if (window.innerWidth < 768) setSidebarOpen(false);
+                      }}
                       className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ${
                         activeTab === tool.id
                           ? "glass text-white shadow-lg shadow-[#5F7C87]/50 tool-selected"
@@ -233,7 +249,7 @@ function App() {
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-auto p-4 md:p-6">
           <div className="max-w-7xl mx-auto h-full">
             <ActiveComponent />
           </div>
