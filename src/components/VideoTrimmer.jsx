@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Check, Download, Film, Pause, Play, Scissors, Upload, X } from "lucide-react";
 import coreURL from "@ffmpeg/core?url";
 import wasmURL from "@ffmpeg/core/wasm?url";
+import { loadCoreWasm } from "./coreWasm";
 import { clipName, formatTime, getVideoFormat, MAX_VIDEO_BYTES, trimArguments } from "./videoTrim";
 import "./VideoTrimmer.css";
 
@@ -19,10 +20,14 @@ export default function VideoTrimmer() {
   const videoRef = useRef(null);
   const inputRef = useRef(null);
   const engineRef = useRef(null);
+  const coreRef = useRef(null);
+  const loadingRef = useRef(null);
   const jobRef = useRef(0);
 
   useEffect(() => () => {
     jobRef.current += 1;
+    loadingRef.current?.abort();
+    coreRef.current?.release();
     engineRef.current?.terminate();
   }, []);
   useEffect(() => () => { if (source) URL.revokeObjectURL(source.url); }, [source]);
@@ -98,15 +103,24 @@ export default function VideoTrimmer() {
   const exportClip = async () => {
     if (!source || !duration || end <= start || status) return;
     const job = ++jobRef.current;
+    const controller = new AbortController();
+    loadingRef.current = controller;
     let ffmpeg;
+    let core;
     resetOutput();
     setStatus("Starting local video engine...");
     try {
       const { FFmpeg } = await import("@ffmpeg/ffmpeg");
       if (job !== jobRef.current) return;
+      core = await loadCoreWasm(wasmURL, import.meta.env.PROD, controller.signal);
+      if (job !== jobRef.current) return;
+      coreRef.current = core;
       ffmpeg = new FFmpeg();
       engineRef.current = ffmpeg;
-      await ffmpeg.load({ coreURL, wasmURL });
+      await ffmpeg.load({ coreURL, wasmURL: core.url });
+      core.release();
+      coreRef.current = null;
+      core = null;
       if (job !== jobRef.current) return;
       setStatus("Preparing video...");
       await ffmpeg.writeFile(`source.${source.format.extension}`, new Uint8Array(await source.file.arrayBuffer()));
@@ -123,14 +137,21 @@ export default function VideoTrimmer() {
     } catch (cause) {
       if (job === jobRef.current) setError(cause instanceof Error ? cause.message : "Export failed. Try a different video.");
     } finally {
+      core?.release();
+      if (coreRef.current === core) coreRef.current = null;
       ffmpeg?.terminate();
       if (engineRef.current === ffmpeg) engineRef.current = null;
+      if (loadingRef.current === controller) loadingRef.current = null;
       if (job === jobRef.current) setStatus("");
     }
   };
 
   const cancelExport = () => {
     jobRef.current += 1;
+    loadingRef.current?.abort();
+    loadingRef.current = null;
+    coreRef.current?.release();
+    coreRef.current = null;
     engineRef.current?.terminate();
     engineRef.current = null;
     setStatus("");
